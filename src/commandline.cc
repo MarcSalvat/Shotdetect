@@ -58,7 +58,7 @@ show_help (char **argv)
           "-v           : generate xml of video infos\n"
           "-f           : generate first image for each shot\n"
           "-l           : generate last image for each shot\n"
-          "-m           : generate the thumbnail image\n"
+          "-m           : generate the thumbnailsdfsdfsdf image\n"
           "-r           : generate the images in native resolution\n"
           "-c           : print timecode on x-axis in graph\n",
           g_APP_VERSION,
@@ -212,11 +212,13 @@ main (int argc, char **argv)
   f.process ();
   string xml_path  = f.global_path;
   xml_path += "/result.xml";
+  //cout << "xml_path: "+xml_path+"\n";
   f.x->write_data (xml_path);
-  /*string finished_path = f.global_path;
-  finished_path += "/finished";
-  FILE *fd_finished = fopen(finished_path.c_str(),"w");
-  fprintf(fd_finished, "0\n");
-  fclose(fd_finished);*/
+  //string finished_path = f.global_path;
+  //finished_path += "finished";
+  //cout << "finished_path: "+finished_path+"\n";
+  //FILE *fd_finished = fopen(finished_path.c_str(),"w");
+  //fprintf(fd_finished, "0\n");
+  //fclose(fd_finished);
   exit (0);
 }

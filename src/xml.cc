@@ -263,8 +263,9 @@ xml::write_data (string & filename)
   this->xml_own_path += "/";
   this->xml_own_path += f->alphaid;
   this->xml_own_path += "/";
-  this->xml_own_path += filename;
-  xmlSaveFileEnc (xml_own_path.c_str (), doc, MY_ENCODING);
+  this->xml_own_path += "result.xml";
+  cout << "Saved result.xml to: " + this->xml_own_path+"\n"; 
+  xmlSaveFileEnc ( this->xml_own_path.c_str (), doc, MY_ENCODING);
   xmlFreeDoc (doc);
 
 }
