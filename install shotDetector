@@ -1,0 +1,20 @@
+sh compile.sh cmd
+cd  build
+sudo make install
+
+---->Llibreries <---
+sudo apt-get install build-essential
+sudo apt-get install libavdevice-dev libavformat-dev
+
+
+sudo apt-get install cmake < probably not needed
+sudo apt-get install ffmpeg <- already has
+
+sudo add-apt-repository ppa:jon-severinsson/ffmpeg
+sudo apt-get install libswscale-dev
+sudo apt-get install libgd2-xpm-dev
+sudo apt-get install libxml2-dev
+sudo apt-get install libxslt1-dev
+sudo apt-get install clang
+
+shotdetect-cmd -s 75 -i chicken.wmv -o ./sortida -a 1 -f -l -v -f -m -r -c
