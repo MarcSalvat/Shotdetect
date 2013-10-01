@@ -60,6 +60,7 @@ public:
   int id;
   bool type;			// BEGIN || END
   int SaveFrame (AVFrame * pFrame, int frame_number);
+  int SaveFrame2 (AVFrame * pFrame, int frame_number);
   int create_img_dir ();
   image (film *, int, int, int, bool, bool, bool);
 

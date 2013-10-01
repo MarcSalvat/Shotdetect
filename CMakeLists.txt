@@ -2,9 +2,13 @@
 cmake_minimum_required(VERSION 2.8)
 PROJECT(shotdetect)
 
-SET(CMAKE_C_COMPILER "/usr/bin/clang")
-SET(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+#SET(CMAKE_C_COMPILER "/usr/bin/clang")
+#SET(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+#set(CMAKE_C_FLAGS "-O3")
+#set(CMAKE_CXX_FLAGS "-O1")
+#set(CMAKE_BUILD_TYPE  Release)
+
 
 
 # Get git version information for automatic embedding in version string:

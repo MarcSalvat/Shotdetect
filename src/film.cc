@@ -105,7 +105,7 @@ void film::get_yuv_colors(AVFrame& pFrame)
     }
   }
 
-  g->push_yuv(c1, c2, c3);
+  //g->push_yuv(c1, c2, c3);
 }
 
 /*
@@ -171,9 +171,9 @@ void film::CompareFrame (AVFrame * pFrame, AVFrame * pFramePrev)
   /*
    * Store gathered data
    */
-  g->push_data (score);
-  g->push_rgb (c1tot, c2tot, c3tot);
-  g->push_rgb_to_hsv (c1tot, c2tot, c3tot);
+  //g->push_data (score);
+  //g->push_rgb (c1tot, c2tot, c3tot);
+  //g->push_rgb_to_hsv (c1tot, c2tot, c3tot);
 
   /*
    * Take care of storing frame position and images of detecte scene cut
@@ -193,7 +193,7 @@ void film::CompareFrame (AVFrame * pFrame, AVFrame * pFramePrev)
      */
     shots.back ().fduration = frame_number - shots.back ().fbegin;
     shots.back ().msduration = int (((shots.back ().fduration) * 1000) / fps);
-
+	
     /*
      * Create images if necessary
      */
@@ -305,7 +305,7 @@ int film::process ()
   create_main_dir ();
 
   string graphpath = this->global_path + "/" + this->alphaid;
-  g = new graph (600, 400, graphpath, threshold, this);
+  //g = new graph (600, 400, graphpath, threshold, this);
 
   /*
    * Register all formats and codecs
@@ -401,7 +401,6 @@ int film::process ()
     // YUV:
     avpicture_alloc ((AVPicture *) pFrameYUV, PIX_FMT_YUV444P, width, height);
 
-
     /*
      * Mise en place du premier plan
      */
@@ -434,7 +433,9 @@ int film::process ()
 
       if (frameFinished) {
         frame_number = pCodecCtx->frame_number; // Current frame number
-
+		image *im = new image (this, width, height, s.myid, BEGIN, true, true);
+		im->SaveFrame2 (pFrameRGB, frame_number);
+		
         // Convert the image into YUV444
         if (! img_ctx) {
           img_ctx = sws_getContext(width, height, pCodecCtx->pix_fmt,
@@ -445,7 +446,7 @@ int film::process ()
             exit(1);
           }
         }
-
+		
         // Convert the image into RGB24
         if (! img_convert_ctx) {
           img_convert_ctx = sws_getContext(width, height, pCodecCtx->pix_fmt,
@@ -534,7 +535,7 @@ int film::process ()
 
     /*
      * Graph 'quantity of movement'
-     */
+     
     g->init_gd ();
     g->draw_all_canvas ();
     g->draw_color_datas ();
@@ -543,7 +544,7 @@ int film::process ()
       string xml_color = graphpath + "/" + alphaid + "_video.xml";
       g->write_xml (xml_color);
     }
-    g->save ();
+    g->save ();*/
 
     /*
      * Free the RGB images

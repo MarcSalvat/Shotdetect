@@ -32,8 +32,8 @@ int image::create_img_dir ()
   str.str ("");
   str << f->global_path << "/" << f->alphaid;
   ostringstream strthumb, strshot;
-  strshot << str.str () << "/shots/";
-  strthumb << str.str () << "/thumbs/";
+  strshot << str.str () << "/thumbs_25fps_full/";
+  strthumb << str.str () << "/thumbs_25fps/";
 
   if (f->display || thumb_set) {
     if (stat (strthumb.str ().c_str (), buf) == -1) {
@@ -160,6 +160,110 @@ int image::SaveFrame (AVFrame * pFrame, int frame_number)
     gdImageJpeg (im, jpgout, 90);
     fclose (jpgout);
   }
+
+  gdImageDestroy (im);
+  gdImageDestroy (miniim);
+
+  return 0;
+}
+
+int image::SaveFrame2 (AVFrame * pFrame, int frame_number)
+{
+  if (frame_number == 1){
+	this->create_img_dir();
+  }
+  // c->thumb_height set to 84
+  int width_s = 320;
+  int height_s = 240;
+  FILE *jpgout;
+  FILE *minijpgout;
+  int y, x;
+  ostringstream str;
+
+  /*
+   * Pointer to images
+   */
+  gdImagePtr im;
+  gdImagePtr miniim;
+
+  /*
+   * Creating image
+   */
+  if ((void *) (im = gdImageCreateTrueColor (width, height)) == NULL) {
+    cerr << "Problem Creating True color IMG" << endl;
+    exit (EXIT_FAILURE);
+  }
+
+  /*
+   * Creating mini image
+   */
+  if ((void *) (miniim = gdImageCreateTrueColor (width_s, height_s)) == NULL) {
+    cerr << "Problem Creating True color IMG" << endl;
+    exit (EXIT_FAILURE);
+  }
+
+
+  for (y = 0; y < height; y++) {
+    for (x = 0; x < width; x++) {
+      /*
+       * concept : pix = r << 16 & g << 8 & b)
+       */
+      im->tpixels[y][x] = (((*(char *) (pFrame->data[0] + y * pFrame->linesize[0] + x * 3)) << 16) & 0xff0000) | (((*(char *) (pFrame->data[0] + y * pFrame->linesize[0] + x * 3 + 1)) << 8) & 0xff00) | ((*(char *) (pFrame->data[0] + y * pFrame->linesize[0] + x * 3 + 2)) & 0xFF);
+    }
+
+  }
+
+  /* Pad numbers to constant string width: */
+  char s_id[5];
+  char s_frame_number[9];
+
+  sprintf(s_id, "%05d", id);
+  sprintf(s_frame_number, "%05d", frame_number);
+
+	//thumb
+  /* Creating file and saving it */
+	/* Name of image file */
+	str.str ("");
+	//if (this->type == BEGIN)
+	 // str << f->alphaid << "/thumbs/" << f->alphaid << "_" << s_id << "-" << s_frame_number << "_in.jpg";
+	//else
+	 // str << f->alphaid << "/thumbs/" << f->alphaid << "_" << s_id << "-" << s_frame_number << "_out.jpg";
+	str << s_frame_number << ".jpg";
+	thumb = str.str ();
+	str.str ("");
+	str << f->global_path << "/" << f->alphaid << "/thumbs_25fps/" << thumb;
+
+	/* Prepare file */
+	if ((minijpgout = fopen (str.str().c_str (), "wb")) == NULL) {
+	  cerr << str.str () << endl;
+	  perror ("shotdetect ");
+	  exit (EXIT_FAILURE);
+	}
+	gdImageCopyResized (miniim, im, 0, 0, 0, 0, width_s, height_s, width, height);
+	gdImageJpeg (miniim, minijpgout, 90);
+	fclose (minijpgout);
+
+	//shot
+    /* Name of image file */
+    str.str ("");
+    //if (this->type == BEGIN)
+    //  str << f->alphaid << "/shots/" << f->alphaid << "_" << s_id << "-" << s_frame_number << "_in.jpg";
+    //else
+    //  str << f->alphaid << "/shots/" << f->alphaid << "_" << s_id << "-" << s_frame_number << "_out.jpg";
+	str << s_frame_number << ".jpg";
+	
+    img = str.str ();
+    str.str ("");
+	str << f->global_path << "/" << f->alphaid << "/thumbs_25fps_full/" << img;
+
+    /* Prepare file */
+    if ((jpgout = fopen (str.str ().c_str (), "wb")) == NULL) {
+      cerr << str.str () << endl;
+      perror ("shotdetect ");
+      exit (EXIT_FAILURE);
+    }
+    gdImageJpeg (im, jpgout, 90);
+    fclose (jpgout);
 
   gdImageDestroy (im);
   gdImageDestroy (miniim);
