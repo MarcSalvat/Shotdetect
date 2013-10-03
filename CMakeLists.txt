@@ -8,8 +8,9 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 #set(CMAKE_C_FLAGS "-O3")
 #set(CMAKE_CXX_FLAGS "-O1")
 #set(CMAKE_BUILD_TYPE  Release)
-
-
+SET(CMAKE_CXX_FLAGS "-lpthread")
+SET(CMAKE_CXX_FLAGS "-pthread")
+SET(CMAKE_C_FLAGS"-lpthread")
 
 # Get git version information for automatic embedding in version string:
 
