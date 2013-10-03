@@ -31,6 +31,10 @@ extern "C" {
 }
 #include "src/film.h"
 #include "src/graph.h"
+#include <cstdlib>
+#include <iostream>
+#include <sstream>
+#include <stdlib.h>
 
 #define DEBUG
 
@@ -42,7 +46,8 @@ void film::do_stats(int frame_number)
   struct timeval time_now;
   struct timezone timezone;
   gettimeofday (&time_now, &timezone);
-
+  ostringstream str;
+    
 #ifdef WXWIDGETS
   int time_elapsed = time_now.tv_sec - dialogParent->time_start.tv_sec;
 
@@ -53,13 +58,26 @@ void film::do_stats(int frame_number)
   }
 
   percent = ((frame_number) / (fps * (duration.mstotal / 100000)));
-
+  str.str ("");
+  str << "php ../funcs/cambia_status_video.php " << f->alphaid << " " << f->hash << " " << "Obtenir shots "<< percent;
+  cout <<"system call: " << str.str().c_str();
+  std::system(str.str().c_str();
+  
   if (int (percent) != int (perctmp) || !show_started) {
     double val_global = percent / idfilm + double (progress_state_prev);
     wxMutexGuiEnter();
     dialogParent->set_progress_local(percent);
     dialogParent->set_progress_global(val_global);
     wxMutexGuiLeave();
+  }
+#else
+  if(isHash){
+	  percent = ((frame_number) / (fps * (duration.mstotal / 100000)));
+	  str.str ("");
+	  str << "php ../funcs/cambia_status_video.php " << alphaid << " " << hash << " " << "Obtenir shots "<< percent;
+	  cout <<"system call: " << str.str().c_str();
+	  std::system(str.str().c_str());
+	  std::system("echo hola");
   }
 #endif
   show_started = 1;
@@ -502,8 +520,7 @@ int film::process ()
         /* Copy current frame as "previous" for next round */
         av_picture_copy ((AVPicture *) pFrameRGBprev, (AVPicture *) pFrameRGB, PIX_FMT_RGB24, width, height);
 
-        if (display)
-          do_stats (pCodecCtx->frame_number);
+        do_stats (pCodecCtx->frame_number);
       }
     }
     if (audio_set && (packet.stream_index == audioStream)) {

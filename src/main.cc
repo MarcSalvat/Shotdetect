@@ -174,7 +174,6 @@ int main (int argc, char **argv) {
       gui = false;
       break;
 
-
     default:
       break;
     }

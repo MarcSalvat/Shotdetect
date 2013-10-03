@@ -189,6 +189,9 @@ public:
   bool show_timecode;
   /* Alphanumeric ID */
   string alphaid;
+  /* Hash name */
+  string hash;
+  bool isHash = false;
   /* Absolute path */
   string global_path;
   /* Percent accomplished */
@@ -253,6 +256,10 @@ public:
   };
   inline void set_alphaid(string alphaid) {
     this->alphaid = alphaid;
+  };
+  inline void set_hash(string fname) {
+    this->hash = fname;
+    this->isHash = true;
   };
   inline void set_title(string title) {
     this->title = title;

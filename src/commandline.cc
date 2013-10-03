@@ -93,7 +93,7 @@ main (int argc, char **argv)
   f.set_draw_yuv_graph  (false);        // YUV graph is still disabled, until it works.
 
   for (;;) {
-    int c = getopt (argc, argv, "?ht:y:i:o:a:x:s:flwvmrc");
+    int c = getopt (argc, argv, "?ht:y:i:o:a:z:x:s:flwvmrc");
 
     if (c < 0) {
       break;
@@ -184,7 +184,11 @@ main (int argc, char **argv)
       } 
       break;
 
-
+	  /* Id for path creation */
+    case 'z':
+      f.set_hash (optarg);
+      break;
+      
     default:
       break;
     }
