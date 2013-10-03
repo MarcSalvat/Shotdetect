@@ -87,11 +87,13 @@ main (int argc, char **argv)
   // Initialize threshold to a sensible default value
   f.threshold=DEFAULT_THRESHOLD;
 
+  
   // Set default settings:
   f.set_draw_rgb_graph  (true);
   f.set_draw_hsv_graph  (true);
   f.set_draw_yuv_graph  (false);        // YUV graph is still disabled, until it works.
-
+  f.set_isHash(false);
+  
   for (;;) {
     int c = getopt (argc, argv, "?ht:y:i:o:a:z:x:s:flwvmrc");
 
@@ -187,6 +189,7 @@ main (int argc, char **argv)
 	  /* Id for path creation */
     case 'z':
       f.set_hash (optarg);
+      f.set_isHash(true);
       break;
       
     default:

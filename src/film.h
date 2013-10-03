@@ -191,7 +191,7 @@ public:
   string alphaid;
   /* Hash name */
   string hash;
-  bool isHash = false;
+  bool isHash;
   /* Absolute path */
   string global_path;
   /* Percent accomplished */
@@ -259,7 +259,9 @@ public:
   };
   inline void set_hash(string fname) {
     this->hash = fname;
-    this->isHash = true;
+  };
+  inline void set_isHash(bool hash) {
+    this->isHash = hash;
   };
   inline void set_title(string title) {
     this->title = title;
