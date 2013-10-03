@@ -74,10 +74,9 @@ void film::do_stats(int frame_number)
   if(isHash){
 	  percent = ((frame_number) / (fps * (duration.mstotal / 100000)));
 	  str.str ("");
-	  str << "php ../funcs/cambia_status_video.php " << alphaid << " " << hash << " " << "Obtenir shots "<< percent;
-	  cout <<"system call: " << str.str().c_str();
+	  str << "php ../funcs/cambia_status_video.php \"" << alphaid << "\" \"" << hash << "\" " << "\"Obtenir shots\" \""<< percent << "\"";
+	  #cout <<"system call: " << str.str().c_str();
 	  std::system(str.str().c_str());
-	  std::system("echo hola");
   }
 #endif
   show_started = 1;
