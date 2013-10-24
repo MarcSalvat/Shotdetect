@@ -89,8 +89,8 @@ main (int argc, char **argv)
 
   
   // Set default settings:
-  f.set_draw_rgb_graph  (true);
-  f.set_draw_hsv_graph  (true);
+  f.set_draw_rgb_graph  (false);
+  f.set_draw_hsv_graph  (false);
   f.set_draw_yuv_graph  (false);        // YUV graph is still disabled, until it works.
   f.set_isHash(false);
   
