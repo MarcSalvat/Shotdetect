@@ -202,10 +202,10 @@ public:
   bool draw_rgb_graph;
   bool draw_hsv_graph;
   bool draw_yuv_graph;
-
+  int frame_step;
   xml *x;
   bool display;
-
+  
   int process ();
   void process_audio ();
   void shotlog(string message);

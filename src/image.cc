@@ -172,6 +172,9 @@ int image::SaveFrame2 (AVFrame * pFrame, int frame_number)
   if (frame_number == 1){
 	this->create_img_dir();
   }
+  if (frame_number == 2){
+	this->SaveFrame2(pFrame,1);
+  }
   // c->thumb_height set to 84
   int width_s = 320;
   int height_s = 240;

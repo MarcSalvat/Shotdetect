@@ -73,8 +73,10 @@ void film::do_stats(int frame_number)
 #else
   if(isHash){
 	  percent = ((frame_number) / (fps * (duration.mstotal / 100000)));
+	  percent = percent+0.5;
+	  int p = static_cast<int>(percent);
 	  str.str ("");
-	  str << "php ../funcs/cambia_status_video.php \"" << alphaid << "\" \"" << hash << "\" " << "\"Obtenir shots\" \""<< percent << "\"";
+	  str << "php ../funcs/cambia_status_video.php \"" << alphaid << "\" \"" << hash << "\" " << "\"Obtenir shots\" \""<< p << "\"";
 	  //cout <<"system call: " << str.str().c_str();
 	  std::system(str.str().c_str());
   }
@@ -440,7 +442,7 @@ int film::process ()
 #endif
 
   checknumber = (samplerate * samplearg) / 1000;
-
+  frame_step = 0;
   /*
    * Main loop to control the movie processing flow
    */
@@ -518,8 +520,12 @@ int film::process ()
         }
         /* Copy current frame as "previous" for next round */
         av_picture_copy ((AVPicture *) pFrameRGBprev, (AVPicture *) pFrameRGB, PIX_FMT_RGB24, width, height);
-
-        do_stats (pCodecCtx->frame_number);
+		if(frame_step > 25){
+			do_stats (pCodecCtx->frame_number);
+			frame_step = 0;
+		}
+		else
+			frame_step = frame_step + 1;
       }
     }
     if (audio_set && (packet.stream_index == audioStream)) {
